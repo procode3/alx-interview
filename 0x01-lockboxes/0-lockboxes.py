@@ -1,21 +1,29 @@
 #!/usr/bin/python3
-"""Lockboxes interview qn"""
+"""
+Lockboxes
+"""
+
+
+def unlocker(box, openboxes, boxes):
+    """Unlock the boxes"""
+    if len(boxes) == len(openboxes):
+        return openboxes
+    for value in box:
+        if value >= len(boxes):
+            continue
+        if value not in openboxes:
+            openboxes.add(value)
+            unlocker(boxes[value], openboxes, boxes)
+    return openboxes
 
 
 def canUnlockAll(boxes):
-    """Lock box"""
-    n = len(boxes)  # Number of boxes
-    unlocked = [False] * n  # Track the unlocked status of each box
-    unlocked[0] = True  # The first box is initially unlocked
-    keys = set(boxes[0])  # Keys available from the first box
-
-    # Iterate through the keys and unlock boxes recursively
-    while keys:
-        new_keys = set()  # Store the newly discovered keys
-        for key in keys:
-            if not unlocked[key]:
-                unlocked[key] = True
-                new_keys.update(boxes[key])
-        keys = new_keys - keys  # Update the keys by excluding duplicates
-
-    return all(unlocked)
+    """Check if unlocked"""
+    openboxes = {0}
+    if len(boxes) == 1:
+        return True
+    unlocked = unlocker(boxes[0], openboxes, boxes)
+    if len(unlocked) == len(boxes):
+        return True
+    else:
+        return False
