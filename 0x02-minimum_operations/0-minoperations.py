@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""Minimum operations interview question"""
+
 
 def minOperations(n):
     """
